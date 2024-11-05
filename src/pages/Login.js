@@ -1,7 +1,7 @@
 import "./Login.css";
 
 const Login = () => {
-  return <div></div>;
+  return <div>Login</div>;
 };
 
 export default Login;
