@@ -1,7 +1,12 @@
 import "./ListDetail.css";
+import List from "../components/List";
 
 const ListDetail = () => {
-  return <div></div>;
+  return (
+    <section>
+      <List></List>
+    </section>
+  );
 };
 
 export default ListDetail;
