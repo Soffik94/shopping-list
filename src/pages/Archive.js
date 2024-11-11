@@ -1,7 +1,7 @@
 import "./Archive";
 
 const Archive = () => {
-  return <div>Archive</div>;
+  return <div className="layout">Archive</div>;
 };
 
 export default Archive;

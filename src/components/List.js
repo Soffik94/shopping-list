@@ -2,30 +2,66 @@ import "./List.css";
 import { useState, useReducer } from "react";
 import { MdDeleteForever } from "react-icons/md";
 
-const initialState = [];
+let simulatedDatabase = [
+  {
+    listName: "Můj seznam",
+    items: [
+      { name: "banány", amount: 2, resolved: false },
+      { name: "cibule", amount: 1, resolved: true },
+    ],
+    ownerID: 1,
+    memberID: 2,
+  },
+];
+
+const initialState = {
+  items: [...simulatedDatabase[0].items],
+  unresolvedOnly: false,
+};
 
 const reducer = (state, action) => {
   switch (action.type) {
     case "ADD_ITEM":
-      if (state.some((item) => item.name === action.payload.name)) {
-        return state.map((item) =>
-          item.name === action.payload.name
-            ? { ...item, amount: item.amount + 1 }
-            : item
-        );
+      if (state.items.some((item) => item.name === action.payload.name)) {
+        return {
+          ...state,
+          items: state.items.map((item) =>
+            item.name === action.payload.name
+              ? { ...item, amount: item.amount + 1 }
+              : item
+          ),
+        };
       } else {
-        return [...state, { name: action.payload.name, amount: 1 }];
+        return {
+          ...state,
+          items: [
+            ...state.items,
+            { name: action.payload.name, amount: 1, resolved: false },
+          ],
+        };
       }
 
     case "ITEM_RESOLVED":
-      return state.map((item) =>
-        item.name === action.payload.name
-          ? { ...item, resolved: !item.resolved }
-          : item
-      );
+      return {
+        ...state,
+        items: state.items.map((item) =>
+          item.name === action.payload.name
+            ? { ...item, resolved: !item.resolved }
+            : item
+        ),
+      };
 
     case "DELETE":
-      return state.filter((item) => item.name !== action.payload.name);
+      return {
+        ...state,
+        items: state.items.filter((item) => item.name !== action.payload.name),
+      };
+
+    case "UNRESOLVED_ONLY":
+      return {
+        ...state,
+        unresolvedOnly: !state.unresolvedOnly,
+      };
 
     default:
       return state;
@@ -54,22 +90,30 @@ const List = () => {
     dispatch({ type: "ITEM_RESOLVED", payload: { name } });
   };
 
+  const toggleUnresolvedOnlyHandler = () => {
+    dispatch({ type: "UNRESOLVED_ONLY" });
+  };
+
+  const displayedItems = state.unresolvedOnly
+    ? state.items.filter((item) => !item.resolved)
+    : state.items;
+
   return (
     <div className="all">
-      <h1>List Detail</h1>
-      <section>
-        {state.map((oneItem) => {
+      <h1>{simulatedDatabase[0].listName}</h1>
+      <section className="list-detail">
+        {displayedItems.map((oneItem) => {
           const { name, amount, resolved } = oneItem;
           return (
-            <div key={name} style={{ display: "flex", alignItems: "center" }}>
+            <div key={name} className="one-item">
               <p>
                 {name} - {amount}
               </p>
               <MdDeleteForever
                 onClick={() => deleteHandler(name)}
-                style={{ cursor: "pointer", marginLeft: "8px" }}
+                className="delete-button"
               />
-              <form action="">
+              <form>
                 <input
                   type="checkbox"
                   checked={resolved || false}
@@ -79,14 +123,23 @@ const List = () => {
             </div>
           );
         })}
-        <form onSubmit={submitFormHandler}>
+        <form onSubmit={submitFormHandler} className="add-item">
           <input
+            className="add-item-input"
             type="text"
             placeholder="Add item..."
             value={value}
             onChange={(event) => setValue(event.target.value)}
           />
           <input type="submit" value="Add" />
+        </form>
+        <form>
+          Show Unresolved
+          <input
+            type="checkbox"
+            checked={state.unresolvedOnly}
+            onChange={toggleUnresolvedOnlyHandler}
+          />
         </form>
       </section>
     </div>

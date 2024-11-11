@@ -5,7 +5,7 @@
 }
 
 .non-active-link {
-  color: black;
+  color: rgb(236, 246, 254);
   text-decoration: none;
   padding: 10px;
 }
@@ -14,7 +14,7 @@ header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  background-color: rgb(200, 198, 218);
+  background-color: rgb(73, 121, 169);
 }
 
 nav {
