@@ -4,3 +4,9 @@ section {
   justify-content: space-evenly;
   align-items: center;
 }
+
+@media (max-width: 1000px) {
+  section {
+    flex-direction: column;
+  }
+}
