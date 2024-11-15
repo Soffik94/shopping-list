@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import Error from "./pages/Error";
 import ListDetail from "./pages/ListDetail";
 import Login from "./pages/Login";
@@ -8,7 +8,7 @@ import Archive from "./pages/Archive";
 
 const App = () => {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<SharedLayout />}>
           <Route index element={<ShoppingLists />} />
@@ -18,7 +18,7 @@ const App = () => {
           <Route path="*" element={<Error />} />
         </Route>
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 
