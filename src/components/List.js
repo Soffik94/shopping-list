@@ -1,6 +1,7 @@
 import "./List.css";
 import { useState, useReducer } from "react";
 import { MdDeleteForever } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 let simulatedDatabase = [
   {
@@ -71,6 +72,7 @@ const reducer = (state, action) => {
 const List = () => {
   const [value, setValue] = useState("");
   const [state, dispatch] = useReducer(reducer, initialState);
+  const navigate = useNavigate();
 
   const submitFormHandler = (event) => {
     event.preventDefault();
@@ -92,6 +94,21 @@ const List = () => {
 
   const toggleUnresolvedOnlyHandler = () => {
     dispatch({ type: "UNRESOLVED_ONLY" });
+  };
+
+  const archiveHandler = () => {
+    // try {
+    //   const response = await fetch(`XXX`, {
+    //     method: "Patch",
+    //   });
+    navigate("/");
+  };
+  const listDeletHandler = () => {
+    // try {
+    //   const response = await fetch(`XXX`, {
+    //     method: "DELETE",
+    //   });
+    navigate("/");
   };
 
   const displayedItems = state.unresolvedOnly
@@ -141,6 +158,10 @@ const List = () => {
             onChange={toggleUnresolvedOnlyHandler}
           />
         </form>
+        <div>
+          <button onClick={() => archiveHandler()}>Archive</button>
+          <button onClick={() => listDeletHandler()}> Delete</button>
+        </div>
       </section>
     </div>
   );
